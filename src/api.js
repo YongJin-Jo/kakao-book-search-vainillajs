@@ -10,6 +10,6 @@ var requestOptionsGet = {
 };
 
  async function fetchSearchCat(data){
-  const response = await fetch(`https://dapi.kakao.com/v3/search/book?query=${data}`, requestOptionsGet);
+  const response = await fetch(`https://dapi.kakao.com/v3/search/book?query=${data}&page=1`, requestOptionsGet);
    return await response.json().catch(err => console.log(err));
 }

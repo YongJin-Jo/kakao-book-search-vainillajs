@@ -13,12 +13,27 @@ class App {
       }
     })
 
-    this.searchResult = new SearchResult({$target,initialData:this.data})
+    this.searchResult = new SearchResult({
+      $target,
+      initialData:this.data,
+      onClick:(data)=>{
+        this.imageInfo.setData({
+          visible: true,
+          info:data
+        })
+      }
+    })
+  
+    this.imageInfo = new ImageInfo({$target,
+      data:{
+        visible: false,
+        info:null
+      }
+    })
   }
 
   setState(nextData){
     this.data =nextData.documents
     this.searchResult.setState(nextData.documents)
-    console.log(this.data);
   }
 }
