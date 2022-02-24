@@ -1,15 +1,22 @@
 console.log("App is running!");
 class App {
+  
   $target = null;
+  current_page = 0
+  total_count = 0
   data = [];
-
+  keyward = ''
   constructor($target) {
     this.$target = $target;
-    
     this.searchInput = new SearchInput({
       $target,
-      onSearch:async (keyword)=>{
-      await fetchSearchCat(keyword).then((data) =>this.setState(data))
+      onSearch:async (keyward)=>{
+      this.data = []
+      this.keyward = keyward
+      this.current_page =1
+      const {documents,meta:{total_count}} = await fetchSearchCat(keyward,this.page)
+      this.total_count = total_count
+      this.setState(documents)
       }
     })
 
@@ -21,6 +28,12 @@ class App {
           visible: true,
           info:data
         })
+      },
+      onScroll: async()=>{
+        if(this.current_page >= this.total_count) return
+        this.current_page = this.current_page +1
+        const {documents} = await fetchSearchCat(this.keyward,this.current_page)
+        this.setState(documents)
       }
     })
   
@@ -33,7 +46,8 @@ class App {
   }
 
   setState(nextData){
-    this.data =nextData.documents
-    this.searchResult.setState(nextData.documents)
+    this.data = this.data.concat(nextData)
+    this.searchResult.setState(this.data)
+    console.log(this.data);
   }
 }

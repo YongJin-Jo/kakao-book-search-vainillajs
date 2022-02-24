@@ -2,7 +2,7 @@ class SearchResult{
   $searchResult = null
   data = null
   onClick = null
-  constructor({$target, initialData, onClick}){
+  constructor({$target, initialData, onClick,onScroll }){
     const $searchResult = document.createElement('div')
     this.$searchResult = $searchResult
     this.$searchResult.className = 'SearchResult'
@@ -11,16 +11,27 @@ class SearchResult{
     this.onClick = onClick
 
     this.render()
-  }
+    
+    // 인피니티 스크롤  기능 구현
+    window.addEventListener("scroll", (e) =>{
+      const target = e.target.scrollingElement
+      const clientHeight = target.clientHeight
+      const scrollHeight = target.scrollHeight
+      const scrollTop = target.scrollTop 
+      if(scrollHeight - scrollTop <= clientHeight+100){
+        onScroll()
+      }
 
+    })
+  }
+  
   setState(nextData) {
-    console.log(nextData);
     this.data = nextData;
     this.render();
   }
 
   render(){
-    if(this.data.length > 0){
+    if(this.data.length !== 0){
       this.$searchResult.innerHTML = this.data.map(
         item => `
           <div class="item">
@@ -35,9 +46,9 @@ class SearchResult{
           this.onClick(this.data[index])
         })
       });
-    }else if(this.data.length == 0){
+    }else{
       this.$searchResult.innerHTML = `
-        <h1>검색한 데이터는 찾을수 없습니다.</h1>
+      <strong>검색된 결과가 없습니다</strong>
       `
     }
      

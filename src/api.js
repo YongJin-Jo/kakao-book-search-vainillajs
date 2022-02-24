@@ -9,7 +9,7 @@ var requestOptionsGet = {
   redirect: 'follow'
 };
 
- async function fetchSearchCat(data){
-  const response = await fetch(`https://dapi.kakao.com/v3/search/book?query=${data}&page=1`, requestOptionsGet);
+ async function fetchSearchCat(data,page){
+  const response = await fetch(`https://dapi.kakao.com/v3/search/book?query=${data}&page=${page}`, requestOptionsGet);
    return await response.json().catch(err => console.log(err));
 }
