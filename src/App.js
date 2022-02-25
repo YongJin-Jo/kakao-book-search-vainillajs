@@ -16,11 +16,12 @@ class App {
         this.loder.onChange()
         this.data = []
         this.keyward = keyward
+        this.searchInput.setData(this.keyward)
+
         this.current_page =1
         const {documents,meta:{total_count}} = await fetchSearchCat(keyward,this.page)
         this.total_count = total_count
         this.setState(documents)
-        
       } catch (error) {
         console.error(error);
       }finally{
