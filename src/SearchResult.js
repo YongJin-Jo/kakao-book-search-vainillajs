@@ -2,7 +2,7 @@ class SearchResult{
   $searchResult = null
   data = null
   onClick = null
-  constructor({$target, initialData, onClick,onScroll }){
+  constructor({$target, initialData, onClick,onScroll,scrollState }){
     const $searchResult = document.createElement('div')
     this.$searchResult = $searchResult
     this.$searchResult.className = 'SearchResult'
@@ -19,7 +19,7 @@ class SearchResult{
       const scrollHeight = target.scrollHeight
       const scrollTop = target.scrollTop 
       if(scrollHeight - scrollTop <= clientHeight+100){
-        onScroll()
+        scrollState? null:onScroll()
       }
 
     })
