@@ -2,7 +2,7 @@ class SearchResult{
   $searchResult = null
   data = null
   onClick = null
-  constructor({$target, initialData, onClick,onScroll,scrollState }){
+  constructor({$target, initialData, onClick,onScroll }){
     const $searchResult = document.createElement('div')
     this.$searchResult = $searchResult
     this.$searchResult.className = 'SearchResult'
@@ -11,7 +11,7 @@ class SearchResult{
     this.onClick = onClick
 
     this.render()
-    
+
     // 인피니티 스크롤  기능 구현
     window.addEventListener("scroll", (e) =>{
       const target = e.target.scrollingElement
@@ -19,7 +19,7 @@ class SearchResult{
       const scrollHeight = target.scrollHeight
       const scrollTop = target.scrollTop 
       if(scrollHeight - scrollTop <= clientHeight+100){
-        scrollState? null:onScroll()
+        onScroll(true)
       }
 
     })
@@ -35,7 +35,7 @@ class SearchResult{
       this.$searchResult.innerHTML = this.data.map(
         item => `
           <div class="item">
-            <img src=${item.thumbnail} alt=${item.title}  loading="lazy" />
+            <img src=${item.thumbnail}  loading="lazy" />
           </div>
         `
       )
