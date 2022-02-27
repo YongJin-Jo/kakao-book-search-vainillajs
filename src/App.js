@@ -4,23 +4,21 @@ class App {
   current_page = 0
   total_count = 0
   data = [];
-  keyward = ''
   scrollState = false
-
+  keyword = null
   constructor($target) {
     this.$target = $target;
     this.searchInput = new SearchInput({
       $target,
-      onSearch:async (keyward)=>{
+      onSearch:async (keyword)=>{
       try {
         this.loder.onChange()
         this.data = []
-        this.keyward = keyward
-        this.searchInput.setData(this.keyward)
-
+        this.keyword = keyword
         this.current_page =1
-        const {documents,meta:{total_count}} = await fetchSearchCat(keyward,this.page)
+        const {documents,meta:{total_count}} = await fetchSearchCat(keyword,this.page)
         this.total_count = total_count
+        this.searchKeyword.setData(keyword)
         this.setState(documents)
       } catch (error) {
         console.error(error);
@@ -28,6 +26,25 @@ class App {
         this.loder.onChange()
       }
     }
+    })
+
+    this.searchKeyword = new SearchKeyword({
+      $target,
+      onClick:async (keyword)=>{
+        try {
+          this.loder.onChange()
+          this.data = []
+          this.keyword = keyword
+          this.current_page =1
+          const {documents,meta:{total_count}} = await fetchSearchCat(keyword,this.page)
+          this.total_count = total_count
+          this.setState(documents)
+        } catch (error) {
+          console.error(error);
+        }finally{
+          this.loder.onChange()
+        }
+      }
     })
 
     this.searchResult = new SearchResult({
@@ -44,7 +61,7 @@ class App {
           if(this.current_page <= this.total_count && this.data.length !==0) {
             this.scrollState = true
             this.current_page = this.current_page +1
-            await fetchSearchCat(this.keyward,this.current_page).then((data) => {
+            await fetchSearchCat(this.keyword,this.current_page).then((data) => {
             this.setState(data.documents)
             this.scrollState = false
         })

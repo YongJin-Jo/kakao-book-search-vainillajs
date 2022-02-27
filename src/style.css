@@ -99,6 +99,21 @@ body * {
   left: 50%;
 
 }
+.searchKeyword{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin: 10px 0; 
+}
+.searchKeyword span{
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid black;
+  min-width: 50px;
+  border-radius: 15px;
+  padding: 5px;
+  margin:0 10px ;
+}
 
 @media (prefers-color-scheme: dark){
   body{
