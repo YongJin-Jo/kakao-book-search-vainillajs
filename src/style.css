@@ -4,12 +4,19 @@
   font-weight: normal;
   font-style: normal;
 }
+
 html {
   box-sizing: border-box;
 }
 
-body * {
-  font-family: Goyang;
+
+
+:root{
+  --color-mode: "light";
+  --color-dark: black;
+  --color-light: white;
+  --background: white;
+  --text-color: black;
 }
 
 *,
@@ -18,13 +25,51 @@ body * {
   box-sizing: inherit;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+      --color-mode: "dark";
+      --background: var(--color-dark);
+      --text-color: var(--color-light);
+  }
+}
+
+
+
+.dark {
+  --color-mode: "dark";
+  --background: var(--color-dark);
+  --text-color: var(--color-light);
+}
+
+body {
+  font-family: Goyang;
+  background-color: var(--background);
+  color: var(--text-color);
+  transition: background 500ms ease-in-out, color 200ms ease;
+}
+
 #App {
   margin: 1.5em auto;
-  max-width: 1200px;
   column-gap: 1.5em;
 }
 
+.dark-mode-wrapper{
+  position:absolute;
+  top: 0;
+  left: 0;
+}
+.dark-mode-wrapper button{
+  border-radius: 50px;
+  padding: 0;
+  font-size: 50px;
+  border: none;
+  background-color: var(--background);
+  transition: background 500ms ease-in-out, color 200ms ease;
+
+}
+
 .SearchInput{
+  margin-top: 50px;
   width: 100%;
   padding: 15px;
   font-size: 20px;
@@ -62,14 +107,17 @@ body * {
   background-color: rgba(0, 0, 0, 0.7);
   justify-content:center;
   align-items: center;
+
 }
 
 .modal-warrper{
   width: 50%;
   height: 80%;
   padding: 20px;
-  background-color: white;
   border-radius: 15px;
+  background-color: var(--background);
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
 }
 
 .modal-article{
@@ -115,19 +163,6 @@ body * {
   margin:0 10px ;
 }
 
-@media (prefers-color-scheme: dark){
-  body{
-    background-color: black;
-    color:white;
-  }
-
-  .modal-warrper{
-    background-color: black;
-    color: white;
-    border: 1px solid #ddd;
-  }    
-}
-
 @media (max-width:992px){
   .SearchResult{
     grid-template-columns:repeat(3,1fr) ;
@@ -154,6 +189,44 @@ body * {
   }
 }
 
+@keyframes fadein {
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+.fade-in-box {
+  animation: fadein 1s;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
+}
+
+@keyframes fadeout {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
+
+.fade-out-box {
+  display: none;
+  animation: fadeout 1s;
+  -moz-animation: fadeout 1s; /* Firefox */
+  -webkit-animation: fadeout 1s; /* Safari and Chrome */
+  -o-animation: fadeout 1s; /* Opera */
+  animation-fill-mode: forwards;
+}
+
+
+
+
+/*Loder IMG */
 .lds-spinner {
   color: official;
   display: inline-block;
