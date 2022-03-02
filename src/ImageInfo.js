@@ -2,24 +2,42 @@ class ImageInfo{
   $ImageInfo = null
   data=null
   onClick = null
+  closeState = true
   constructor({$target, data,onClick}){
     const $ImageInfo = document.createElement('div')
     this.$ImageInfo = $ImageInfo
-    this.$ImageInfo.classList.add("ImageInfo")
-    this.$ImageInfo.classList.toggle("fade-in-box")
-
+    this.$ImageInfo.id="modal-container"
+    this.$ImageInfo.classList.add("fade-in-box")
+    
     this.onClick = onClick
     // modal clickEvent 구현 
-    this.$ImageInfo.addEventListener("click",()=>{
-      this.setData({visible:false,info:null})
-      
-    })
+    
+      this.$ImageInfo.addEventListener("click",(e)=>{ 
+        if(this.closeState){ 
+          this.$ImageInfo.classList.add("fade-out-box")
+          this.close(e)
+        } 
+      })
 
     $target.appendChild(this.$ImageInfo)
     this.data = data
     this.render()
   }
   
+  close(e){
+      if(e.target.id ==='modal-container'){
+        this.closeState =false
+        const animation = document.querySelector('.fade-out-box');
+        animation.addEventListener("animationend",(e)=>{
+          if(e.target.className =='fade-in-box fade-out-box'){
+            this.$ImageInfo.classList.remove("fade-out-box")
+            this.setData({visible:false,info:null})
+            this.closeState = true
+          }
+        })
+      }  
+  }
+
   setData(data){
     this.data = data
     this.render()
@@ -27,7 +45,6 @@ class ImageInfo{
 
   render(){
     if(this.data.visible){
-      this.$ImageInfo.classList.add("fade-in-box")
       const {title,thumbnail,contents,price,publisher,authors} = this.data.info
       this.$ImageInfo.innerHTML = `
         <div class="modal-warrper">

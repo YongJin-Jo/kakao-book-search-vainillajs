@@ -19,6 +19,7 @@ class DarkMode{
       this.currentMode = 'dark'
       body.className = 'dark'
     }
+    
     document.querySelector('.dark-mode-btn').remove()
     this.render()
     
